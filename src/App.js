@@ -28,7 +28,7 @@ export default function App () {
     <div>
       
     
-    {/* <MapContainer
+    <MapContainer
     center={center}
       zoom={8}
       style={{width: '50vw',height: '90vh'}}
@@ -80,7 +80,7 @@ export default function App () {
         })
       }
       <Marker position={markerPosition} icon={customIcon}></Marker>
-    </MapContainer> */}
+    </MapContainer>
     </div>
   );
 }
