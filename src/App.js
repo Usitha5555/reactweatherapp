@@ -24,22 +24,6 @@ const customIcon = L.icon({
 
 export default function App () {
         
-
-  const [weatherData, setWeatherData] = useState({});
-
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3033/weather');
-        setWeatherData(response.data);
-      } catch (error) {
-        console.error('Error fetching weather data:', error);
-      }
-    };
-
-    fetchWeatherData();
-  }, []);
-  
   return (
     <div>
       
