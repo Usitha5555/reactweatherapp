@@ -28,59 +28,7 @@ export default function App () {
     <div>
       
     
-    <MapContainer
-    center={center}
-      zoom={8}
-      style={{width: '50vw',height: '90vh'}}
-    >
-      <TileLayer
-      url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=vIkXdioF5LVFcmvw5yTi"
-      attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-      />
-        
-      {
-        statesData.features.map((states)=> {
-          const coordinates = states.geometry.coordinates[0].map((item)=> [item[1], item[0]])
-          return <Polygon
-            pathOptions={{
-              fillColor: '#FD8D3C',
-              fillOpacity: 0.7,
-              weight: 2,
-              opacity: 1,
-              dashArray: 3,
-              color: 'white'
-            }}
-            positions={coordinates}
-            eventHandlers={{
-              mouseover: (e) => {
-                const layer = e.target;
-                layer.setStyle({
-                  fillOpacity:0.7,
-                  weight: 2,
-                  dashArray: "",
-                  color: "white",
-                  fillColor: 'green'
-                })
-              },
-              mouseout: (e) =>{
-                const layer = e.target;
-                  layer.setStyle({
-                    fillOpacity:0.7,
-                    weight: 2,
-                    dashArray: "3",
-                    color: "white",
-                    fillColor: '#FD8D3C'
-                  })
-              },
-              click: (e) => {
-
-              }
-            }}
-          />
-        })
-      }
-      <Marker position={markerPosition} icon={customIcon}></Marker>
-    </MapContainer>
+    
     </div>
   );
 }
