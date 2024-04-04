@@ -110,7 +110,7 @@ export default function App() {
     });
   };
 
-  
+
 
   const fetchWeatherData = () => {
     axios.get('https://weatherapp-backend-nodejs.onrender.com/weather')
@@ -175,13 +175,13 @@ export default function App() {
         <Header />
       </div>
 
-      
+
 
       <div className="app-container">
-      <div className='large-header'>
+        <div className='large-header'>
 
-<h1>Live weather Cast</h1>
-</div>
+          <h1>Live weather Cast</h1>
+        </div>
 
         <div className="highest-lowest-container">
           <div className="highest-lowest-card">
@@ -203,8 +203,8 @@ export default function App() {
         </div>
 
 
-        
-       
+
+
 
 
 
