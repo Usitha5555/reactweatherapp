@@ -15,10 +15,11 @@
 }
 
 .app-container{
-  background-image: url('/public/back.jpg'); 
+  background-image: url('/public/back2.jpg'); 
   background-size: cover;
   background-position: center;
   min-height: 100vh;
+  /* background-position: center 5000%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -97,8 +98,8 @@ a {
 .highest-lowest-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  padding-bottom: 40px; /* Increased padding for more gap */
+  margin-top: 10px;
+  padding-bottom: 120px; /* Increased padding for more gap */
 }
 
 .highest-lowest-card {
@@ -108,7 +109,7 @@ a {
   border-radius: 10px;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0.1, 0.1);
   margin-right: 20px;
 }
 
@@ -136,7 +137,9 @@ a {
   margin-top: 7px;
 }
 
-
+.large-header {
+  font-size: 6rem; /* Adjust the font size as needed */
+}
 
 
 

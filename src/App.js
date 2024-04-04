@@ -175,11 +175,13 @@ export default function App() {
         <Header />
       </div>
 
+      
 
       <div className="app-container">
-        <div className='title'>
+      <div className='large-header'>
 
-        </div>
+<h1>Live weather Cast</h1>
+</div>
 
         <div className="highest-lowest-container">
           <div className="highest-lowest-card">
@@ -201,8 +203,8 @@ export default function App() {
         </div>
 
 
-
-
+        
+       
 
 
 
