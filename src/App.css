@@ -93,3 +93,50 @@ a {
 .App {
   text-align: center;
 }
+
+.highest-lowest-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-bottom: 40px; /* Increased padding for more gap */
+}
+
+.highest-lowest-card {
+  width: 240px;
+  height: 260px; /* Increased card height for more gap */
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+
+.temperature {
+  font-size: 32px;
+  font-weight: bold;
+  color: black;
+}
+
+.district-name {
+  margin-top: 10px;
+  font-size: 18px;
+  color: black;
+}
+
+.district-image {
+  max-width: 160px; /* Adjust image size as needed */
+  height: auto;
+  margin-top: 20px;
+}
+
+.district-images {
+  max-width: 160px; /* Adjust image size as needed */
+  height: auto;
+  margin-top: 7px;
+}
+
+
+
+
+

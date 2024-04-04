@@ -14,8 +14,7 @@ import Header from './components/Header';
 import './App.css';
 
 const center = [7.926252474659472, 80.62546784024994];
-// const positionKandy = [7.344505821309715, 80.62933056448098];
-// const positionColombo = [6.924722191330576, 79.8600721708302];
+
 
 const districtPositions = [
   { name: 'Kandy', position: [7.344505821309715, 80.62933056448098] },
@@ -44,28 +43,25 @@ const districtPositions = [
   { name: 'Mannar', position: [8.995349585431844, 79.88581031754181] },
   { name: 'Jaffna', position: [9.675689491608374, 80.03613210882942] },
 
-  
 
-  
+
+
 ];
 
 
 
-// const customIcon = L.icon({
-  
-//   iconUrl: './mark.png',
-//   iconSize: [40, 40],
-//   iconAnchor: [12, 41],
-//   popupAnchor: [1, -34],
-// });
+
 
 export default function App() {
   const [weatherData, setWeatherData] = useState([]);
   const [geoJSONData, setGeoJSONData] = useState(null);
-
+  const [highestTempDistrict, setHighestTempDistrict] = useState('');
+  const [lowestTempDistrict, setLowestTempDistrict] = useState('');
+  const [highestTemp, setHighestTemp] = useState('');
+  const [lowestTemp, setLowestTemp] = useState('');
   useEffect(() => {
 
-    
+
 
     axios.get('https://api.maptiler.com/data/7a2e8f44-16af-429b-b62c-c3332ffba33f/features.json?key=vIkXdioF5LVFcmvw5yTi')
       .then(response => {
@@ -75,27 +71,13 @@ export default function App() {
         console.error('Error fetching GeoJSON data:', error);
       });
 
-    
 
-    
-      
-    //   const socket = new WebSocket('ws://localhost:3031'); // WebSocket server port
+    fetchWeatherData()
+    const interval = setInterval(fetchWeatherData, 120000);
+    console.log('api call')
+    return () => clearInterval(interval);
 
-    // socket.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   setWeatherData(data);
-    // };
 
-    // return () => {
-    //   socket.close();
-    // };
-
-      fetchWeatherData()
-      const interval = setInterval(fetchWeatherData, 120000); 
-      console.log('api call')
-      return () => clearInterval(interval);
-      
-    
   }, []);
 
   const geoJSONStyle = {
@@ -128,31 +110,33 @@ export default function App() {
     });
   };
 
-  // const generatePopupContent = (district, weatherData) => {
-  //   return (
-  //     <div>
-  //       <h3>{district}</h3>
-  //       {weatherData.map(item => {
-  //         if (item.district === district) {
-  //           return (
-  //             <div key={item._id}>
-  //               <p>Temperature: {item.temperature}°C</p>
-  //               <p>Humidity: {item.humidity}%</p>
-  //               <p>Pressure: {item.pressure} hPa</p>
-  //             </div>
-  //           );
-  //         } else {
-  //           return null;
-  //         }
-  //       })}
-  //     </div>
-  //   );
-  // };
+  
 
   const fetchWeatherData = () => {
     axios.get('https://weatherapp-backend-nodejs.onrender.com/weather')
       .then(response => {
         setWeatherData(response.data);
+
+        let highestTemp = -Infinity;
+        let lowestTemp = Infinity;
+        let highestTempDistrict = '';
+        let lowestTempDistrict = '';
+
+        response.data.forEach(item => {
+          if (item.temperature > highestTemp) {
+            highestTemp = item.temperature;
+            highestTempDistrict = item.district;
+          }
+          if (item.temperature < lowestTemp) {
+            lowestTemp = item.temperature;
+            lowestTempDistrict = item.district;
+          }
+        });
+
+        setHighestTempDistrict(highestTempDistrict);
+        setLowestTempDistrict(lowestTempDistrict);
+        setHighestTemp(highestTemp);
+        setLowestTemp(lowestTemp);
       })
       .catch(error => {
         console.error('Error fetching weather data:', error);
@@ -182,82 +166,105 @@ export default function App() {
       });
     }
   };
-  
+
+
   return (
-    
+
     <section>
       <div className="App">
-          <Header/>
+        <Header />
       </div>
-        
 
-        <div className="app-container">
+
+      <div className="app-container">
         <div className='title'>
-          
+
         </div>
-        
-         
-      
 
-      <MapContainer
-        center={center}
-        zoom={8}
-        style={{ width: '50vw', height: '90vh' }}
-        dragging={true}
-        scrollWheelZoom={true}
-        zoomControl={true}
-      >
-        <TileLayer
-          url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=vIkXdioF5LVFcmvw5yTi"
-          attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-        />
-
-        {geoJSONData && (
-          <GeoJSON data={geoJSONData} style={geoJSONStyle} onEachFeature={onEachFeature} />
-        )}
-
-        {districtPositions.map(({ name, position }) => {
-                  const weatherInfo = weatherData.find(item => item.district === name);
-                  const weatherCondition = weatherInfo ? weatherInfo.weatherCondition : '';
-
-                  const customIcon = getWeatherIcon(weatherCondition);
-
-                  return (
-                    <Marker
-                      key={name}
-                      position={position}
-                      icon={customIcon}
-                      eventHandlers={{
-                        mouseover: (e) => {
-                          e.target.openPopup();
-                        },
-                        mouseout: (e) => {
-                          e.target.closePopup();
-                        },
-                      }}
-                    >
-                      <Popup>
-                        <h3>{name}</h3>
-                        {weatherInfo && (
-                          <div>
-                            <p>Temperature: {weatherInfo.temperature}°C</p>
-                            <p>Humidity: {weatherInfo.humidity}%</p>
-                            <p>Pressure: {weatherInfo.pressure} hPa</p>
-                          </div>
-                        )}
-                      </Popup>
-                    </Marker>
-                  );
-                })}
-
-        
+        <div className="highest-lowest-container">
+          <div className="highest-lowest-card">
+            <h2>Highest Temperature</h2>
+            <div className="temperature">{highestTemp}°C</div>
+            <div className="district-info">
+              <div className="district-name">{highestTempDistrict}</div>
+              <img src="./sunny.png" alt="Highest Temp" className="district-images" />
+            </div>
+          </div>
+          <div className="highest-lowest-card">
+            <h2>Lowest Temperature</h2>
+            <div className="temperature">{lowestTemp}°C</div>
+            <div className="district-info">
+              <div className="district-name">{lowestTempDistrict}</div>
+              <img src="./rain.png" alt="Lowest Temp" className="district-image" />
+            </div>
+          </div>
+        </div>
 
 
 
-      </MapContainer>
-    </div>
+
+
+
+
+        <MapContainer
+          center={center}
+          zoom={8}
+          style={{ width: '50vw', height: '90vh' }}
+          dragging={true}
+          scrollWheelZoom={true}
+          zoomControl={true}
+        >
+          <TileLayer
+            url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=vIkXdioF5LVFcmvw5yTi"
+            attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+          />
+
+          {geoJSONData && (
+            <GeoJSON data={geoJSONData} style={geoJSONStyle} onEachFeature={onEachFeature} />
+          )}
+
+          {districtPositions.map(({ name, position }) => {
+            const weatherInfo = weatherData.find(item => item.district === name);
+            const weatherCondition = weatherInfo ? weatherInfo.weatherCondition : '';
+
+            const customIcon = getWeatherIcon(weatherCondition);
+
+            return (
+              <Marker
+                key={name}
+                position={position}
+                icon={customIcon}
+                eventHandlers={{
+                  mouseover: (e) => {
+                    e.target.openPopup();
+                  },
+                  mouseout: (e) => {
+                    e.target.closePopup();
+                  },
+                }}
+              >
+                <Popup>
+                  <h3>{name}</h3>
+                  {weatherInfo && (
+                    <div>
+                      <p>Temperature: {weatherInfo.temperature}°C</p>
+                      <p>Humidity: {weatherInfo.humidity}%</p>
+                      <p>Pressure: {weatherInfo.pressure} hPa</p>
+                    </div>
+                  )}
+                </Popup>
+              </Marker>
+            );
+          })}
+
+
+
+
+
+        </MapContainer>
+      </div>
     </section>
-    
+
   );
 }
 
