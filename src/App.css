@@ -99,12 +99,12 @@ a {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  padding-bottom: 120px; /* Increased padding for more gap */
+  padding-bottom: 120px;
 }
 
 .highest-lowest-card {
   width: 240px;
-  height: 260px; /* Increased card height for more gap */
+  height: 260px; 
   background-color: rgba(255, 255, 255, 0);
   border-radius: 10px;
   padding: 20px;
@@ -126,19 +126,19 @@ a {
 }
 
 .district-image {
-  max-width: 160px; /* Adjust image size as needed */
+  max-width: 160px; 
   height: auto;
   margin-top: 20px;
 }
 
 .district-images {
-  max-width: 160px; /* Adjust image size as needed */
+  max-width: 160px; 
   height: auto;
   margin-top: 7px;
 }
 
 .large-header {
-  font-size: 6rem; /* Adjust the font size as needed */
+  font-size: 6rem; 
 }
 
 
